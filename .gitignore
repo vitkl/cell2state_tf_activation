@@ -1,3 +1,4 @@
 *.ipynb_checkpoints
 data/
 pilot_aug_2022/
+*.vscode
