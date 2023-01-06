@@ -1,5 +1,7 @@
 *.ipynb_checkpoints
-data/
 pilot_aug_2022/
+data/
+#Kevin's part to avoid uploading data and results to git
+**/data/
 *.vscode
 results/
