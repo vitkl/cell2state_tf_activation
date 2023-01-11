@@ -1,5 +1,6 @@
 import datetime
 import os
+import seaborn as sns
 
 ###Define constants here###
 
@@ -15,5 +16,4 @@ results_folder = '/lustre/scratch123/hgi/teams/parts/kl11/cell2state_tf_activati
 if not os.path.exists(results_folder):
     os.makedirs(results_folder)
 
-
-
+color=sns.color_palette("colorblind", 10)
