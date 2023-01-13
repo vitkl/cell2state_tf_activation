@@ -1,6 +1,6 @@
 echo '---Start backing up data folder'
 
-#rclone incremental backup
+#rclone incremental backup of data 
 /software/rclone/rclone sync -iP /lustre/scratch123/hgi/teams/parts/kl11/cell2state_tf_activation/data gdrive:phd_rotation_2/data
 
 echo 'Data folder successfully backed up---'

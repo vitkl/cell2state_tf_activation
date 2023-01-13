@@ -27,5 +27,7 @@ def plot_histogram(df ,col ,num_bins, xlabel, ylabel, results_folder, today, fig
     plt.hist(df[col],bins=num_bins);
     plt.xlabel(xlabel);
     plt.ylabel(ylabel);
+
+    plt.axvline(x=1000, color='r', linestyle='--')
     plt.show()
     plt.savefig(f'{results_folder}{today}_{figname}.pdf', bbox_inches='tight')
