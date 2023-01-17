@@ -10,30 +10,29 @@ ExperimentName=Magpie
 ProjectID=P42
 NonTargetGeneName=NonTarget
 BatchNo=1
-Date=210825 #change date
+Date=230116 #change date
 rerun=FALSE
 
-HomeFolder=/lustre/scratch123/hgi/teams/parts/cf14/crispr_scrnaseq_hipsci/ #changed
-ProjectFolder=/lustre/scratch123/hgi/projects/crispri_scrnaseq/ #change
+HomeFolder=/lustre/scratch123/hgi/teams/parts/kl11/cell2state_tf_activation/ #changed
+
 
 
 WorkflowFolder=${HomeFolder}workflows/
-CodeFolder=${HomeFolder}scripts/
-FilesFolder=${ProjectFolder}files/${ExperimentName}/
-DataFolder=${ProjectFolder}data/${ExperimentName}/
-OutFolder=${ProjectFolder}outs/${ExperimentName}/
-ResourcesFolder=${ProjectFolder}resources/
+CodeFolder=${HomeFolder}scripts/Kevin/
+FilesFolder=${HomeFolder}files/${ExperimentName}/
+DataFolder=${HomeFolder}data/${ExperimentName}/
+OutFolder=${HomeFolder}outs/${ExperimentName}/
+ResourcesFolder=${HomeFolder}data/
 
-#check if this is needed
-GuideMetadata=${FilesFolder}${ExperimentName}Library_forAnalysis.tsv
-LaneMetadata=${FilesFolder}LaneMetadata_Batch${BatchNo}-Miseq.csv
+# GuideMetadata=${FilesFolder}${ExperimentName}Library_forAnalysis.tsv
+# LaneMetadata=${FilesFolder}LaneMetadata_Batch${BatchNo}-Miseq.csv
 
 ##Useful Paths
 CellRangerReferencePath=${ResourcesFolder}reference_sequences/${ExperimentName}_custom_ref/
 
 
 ## Experiment-specific variables (values)
-no_of_ids=`cat ${LaneMetadata} | wc -l`
+# no_of_ids=`cat ${LaneMetadata} | wc -l`
 
 
 
@@ -41,11 +40,13 @@ no_of_ids=`cat ${LaneMetadata} | wc -l`
 # Make Reference
 
 cd $ResourcesFolder
-sh ${CodeFolder}/Setup/make_reference/mkref.sh \
+echo '---Start making reference file'
+bash ${CodeFolder}mk_reference_cellranger/mkref.sh \
 	--added_sequences ${ResourcesFolder}reference_sequences/added_sequences/ \
 	--home_directory ${ResourcesFolder}reference_sequences/ \
 	--experiment_name ${ExperimentName}
+echo 'Reference file successfully made---'
 
-mv ${ResourcesFolder}/${ExperimentName}_custom_ref/ ${CellRangerReferencePath}
-rm Log.out
-rm ${ResourcesFolder}reference_sequences/new_reference/
+# mv ${ResourcesFolder}/${ExperimentName}_custom_ref/ ${CellRangerReferencePath}
+# rm Log.out
+# rm ${ResourcesFolder}reference_sequences/new_reference/

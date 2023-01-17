@@ -38,9 +38,9 @@ then
 fi
 
 
-CELLRANGER=/lustre/scratch123/hgi/teams/parts/cellranger/cellranger-4.0.0/cellranger #check cell ranger version
-ref_folder=/lustre/scratch123/hgi/projects/crispri_scrnaseq/resources/reference_sequences/ #change this folder
-added_sequences=${ref_folder}/added_sequences/
+CELLRANGER=/lustre/scratch123/hgi/teams/parts/cellranger/cellranger-4.0.0/cellranger
+ref_folder=/lustre/scratch123/hgi/teams/parts/kl11/cell2state_tf_activation/data/
+added_sequences=${ref_folder}reference_sequences/added_sequences/
 reference_folder=/nfs/srpipe_references/downloaded_from_10X/refdata-gex-GRCh38-2020-A/
 
 for arg in "$@"
@@ -155,9 +155,9 @@ done
 
 ## ---- 
 
-bsub -q long -M20000 -R "select[mem>20000] rusage[mem=20000] span[hosts=1]" \
+bsub -G teichlab -q long -M20000 -R "select[mem>20000] rusage[mem=20000] span[hosts=1]" \
 	-n 16 -oo $ref_folder/mkref.stdout -eo $ref_folder/mkref.stderr \
-	$CELLRANGER mkref --genome=${ExperimentName}_custom_ref --fasta=$ref_folder/new_reference/genome.fa \
+	$`CELLRANGER` mkref --genome=${ExperimentName}_custom_ref --fasta=$ref_folder/new_reference/genome.fa \
 	--genes=$ref_folder/new_reference/genes.gtf
 
 
