@@ -2,6 +2,7 @@ import datetime
 import os
 import seaborn as sns
 import matplotlib.pyplot as plt
+from IPython.display import set_matplotlib_formats
 
 ###Define constants here###
 
@@ -29,3 +30,4 @@ plt.rcParams['axes.spines.top'] = False
 plt.rcParams['axes.spines.right'] = False
 #legend without frame
 plt.rcParams['legend.frameon'] = False
+set_matplotlib_formats('svg', 'pdf') # For export
