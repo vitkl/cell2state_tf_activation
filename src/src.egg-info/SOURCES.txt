@@ -1,6 +1,7 @@
 README.md
 setup.py
 src/__init__.py
+src/guide_assignment.py
 src/utils.py
 src/var.py
 src/src.egg-info/PKG-INFO
