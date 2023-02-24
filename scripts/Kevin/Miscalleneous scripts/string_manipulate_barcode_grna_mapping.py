@@ -31,9 +31,11 @@ def add_plasmid_seq(df,plasmid_seq_5):
     ----------
     df : dataframe containing barcode column
     plasmid_seq_5 : 5' plasmid sequence
+
     Returns
     -------
     complete_barcode : list of complete barcode sequence with plasmid sequence added
+    
         Description.
     Function to add plasmid sequence to provide as input for parse_barcodes.py
     '''
@@ -60,7 +62,7 @@ complete_barcode = add_plasmid_seq(barcode_grna_mapping, plasmid_seq_5)
 barcode_grna_mapping['complete_barcode'] = complete_barcode
 
 #select only required columns
-barcode_grna_mapping = barcode_grna_mapping[['gRNA construct', 'complete_barcode']]
+barcode_grna_mapping = barcode_grna_mapping[['complete_barcode','gRNA construct']]
 #rename columns to match input for parse_barcodes.py script: gRNA_construct: Name, complete_barcode: Barcode
 barcode_grna_mapping = barcode_grna_mapping.rename(columns={'gRNA construct':'NAME', 'complete_barcode':'BARCODE'})
 
