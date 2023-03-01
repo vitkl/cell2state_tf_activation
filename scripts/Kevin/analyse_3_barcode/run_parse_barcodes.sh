@@ -15,8 +15,8 @@ data_folder=/lustre/scratch125/ids/team117/npg/srl/kl11
 output_folder=${working_dir}/barcode_output/
 mkdir -p $output_folder
 # create an array with all barcode library names: Barcode-3P1, Barcode-3S, Barcode-3WT
-barcode_array=("08972bb85ef752ca936c888e2872b364" "54549d53a45599c8213eae016199fa4e" "f5a996dd2bce39c438fe8fff985ce824")
-
+# barcode_array=("08972bb85ef752ca936c888e2872b364" "54549d53a45599c8213eae016199fa4e" "f5a996dd2bce39c438fe8fff985ce824")
+barcode_array=("Barcode-3S" "Barcode-3P1" "Barcode-3WT")
 
 #loop through all barcodes and run parse_barcodes.py
 for i in "${barcode_array[@]}";
@@ -26,10 +26,10 @@ do
 
 
     # run parse_barcodes.py
-    bsub -G team227 -q long -M20000 -R "select[mem>20000] rusage[mem=20000] span[hosts=1]" \
+    bsub -G team227 -q normal -M5000 -R "select[mem>5000] rusage[mem=5000] span[hosts=1]" \
     -n 32 -oo ${output_folder}/barcodes_$i.stdout -eo ${output_folder}/barcodes_$i.stderr \
     python parse_barcodes.py \
-    --bam ${data_folder}/cellranger710_count_${i}/possorted_genome_bam.bam \
+    --bam ${data_folder}/cellranger710_count_${i}_Crispra_custom_ref/possorted_genome_bam.bam \
     --seq ${working_dir}/cloned_gRNA_constructs_w_barcode_processed.csv \
     --csv ${output_folder}/${i}_barcode_counts.csv
 done

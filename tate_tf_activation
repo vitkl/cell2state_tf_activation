@@ -1,0 +1,2083 @@
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                 bbjjoobbss
+
+Displays and filters information about LSF jobs. Specify one or more job
+IDs (and, optionally, an array index list) to display information about
+specific jobs (and job arrays).
+
+SSyynnooppssiiss
+       bbjjoobbss [options] [job_ID | ""job_ID[[index_list]]"" ... ]
+
+       bbjjoobbss --hh[eellpp] [aallll] [ddeessccrriippttiioonn] [category_name ...]
+       [--option_name ...]
+
+       bbjjoobbss --VV
+
+CCaatteeggoorriieess aanndd ooppttiioonnss
+       Use the keyword all to display all options and the keyword
+       description to display a detailed description of the bjobs com‐
+       mand. For more details on specific categories and options, spec‐
+       ify bjobs -h with the name of the categories and options.
+
+          Categories
+
+          Options
+          List of options for the bjobs command.
+
+          Description
+          By default, displays information about your own pending,
+          running, and suspended jobs.
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --AA
+
+       Displays summarized information about job arrays.
+
+CCaatteeggoorriieess
+       filter
+
+SSyynnooppssiiss
+       bbjjoobbss --AA
+
+DDeessccrriippttiioonn
+       If you specify job arrays with the job array ID, and also specify
+       -A, do not include the index list with the job array ID.
+
+       You can use -w to show the full array specification, if neces‐
+       sary.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --aa
+
+       Displays information about jobs in all states, including jobs
+       that finished recently.
+
+CCaatteeggoorriieess
+       state
+
+SSyynnooppssiiss
+       bbjjoobbss --aa
+
+DDeessccrriippttiioonn
+       The finished jobs that -a displays are those that finished within
+       an interval specified by CLEAN_PERIOD in lsb.params (the default
+       period is 1 hour).
+
+       Use -a with -x option to display all jobs that have triggered a
+       job exception (overrun, underrun, idle).
+
+EExxaammpplleess
+       bjobs -u all -a
+
+       Displays all jobs of all users.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                     --aaffff
+
+       Displays information about jobs with CPU and memory affinity
+       resource requirements for each task in the job.
+
+CCaatteeggoorriieess
+       filter, format
+
+SSyynnooppssiiss
+       bbjjoobbss --ll | --UUFF [--aaffff]
+
+CCoonnfflliiccttiinngg ooppttiioonnss
+       Use only with the -l or -UF option.
+
+DDeessccrriippttiioonn
+       If the job is pending, the requested affinity resources are dis‐
+       played. For running jobs, the effective and combined affinity
+       resource allocation decision made by LSF is also displayed, along
+       with a table headed AFFINITY that shows detailed memory and CPU
+       binding information for each task, one line for each allocated
+       processor unit. For finished jobs (EXIT or DONE state), the
+       affinity requirements for the job, and the effective and combined
+       affinity resource requirement details are displayed.
+
+       Use bhist -l -aff to show the actual affinity resource allocation
+       for finished jobs.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                     --aapppp
+
+       Displays information about jobs submitted to the specified appli‐
+       cation profile.
+
+CCaatteeggoorriieess
+       filter
+
+SSyynnooppssiiss
+       bbjjoobbss --aapppp application_profile_name
+
+DDeessccrriippttiioonn
+       You must specify an existing application profile.
+
+EExxaammpplleess
+       bjobs -app fluent
+
+       Displays all jobs belonging to the application profile fluent.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                     --aappss
+
+       Displays absolute priority scheduling (APS) information for pend‐
+       ing jobs in a queue with APS_PRIORITY enabled.
+
+CCaatteeggoorriieess
+       format
+
+SSyynnooppssiiss
+       bbjjoobbss --aappss
+
+DDeessccrriippttiioonn
+       The APS value is calculated based on the current scheduling
+       cycle, so jobs are not guaranteed to be dispatched in this order.
+
+       Pending jobs are ordered by APS value. Jobs with system APS val‐
+       ues are listed first, from highest to lowest APS value. Jobs with
+       calculated APS values are listed next ordered from high to low
+       value. Finally, jobs not in an APS queue are listed. Jobs with
+       equal APS values are listed in order of submission time. APS val‐
+       ues of jobs not in an APS queue are shown with a dash (-).
+
+       If queues are configured with the same priority, bjobs -aps may
+       not show jobs in the correct expected dispatch order. Jobs may be
+       dispatched in the order the queues are configured in lsb.queues.
+       You should avoid configuring queues with the same priority.
+
+       For resizable jobs, -aps displays the latest APS information for
+       running jobs with active resize allocation requests. LSF handles
+       the dynamic priority for running jobs with active resize
+       requests. The displayed job priority can change from time to
+       time.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                    --ccnnaammee
+
+       In IBM Spectrum LSF Advanced Edition, includes the cluster name
+       for execution cluster hosts in the output.
+
+CCaatteeggoorriieess
+       format
+
+SSyynnooppssiiss
+       bbjjoobbss --ccnnaammee
+
+       NNoottee:: This command option is deprecated and might be removed in a
+       future version of LSF.
+
+EExxaammpplleess
+       % bjobs -l -cname
+       Job <1>, User <lsfuser>, Project <default>, Status <RUN>, Queue
+       <queue1>,
+       Command <myjob>
+       Mon Nov 29 14:08:35: Submitted from host <hostA>, CWD
+       </home/lsfuser>,
+                            Re-runnable;
+       Mon Nov 29 14:08:38: Job <1> forwarded to cluster <cluster3>;
+       Mon Nov 29 14:08:44: Started on <hostC@cluster3>, Execution Home
+                            </home/lsfuser>, Execution CWD
+       </home/lsfuser>;
+       Mon Nov 29 14:08:46: Resource usage collected.
+        MEM: 2 Mbytes;  SWAP: 32 Mbytes;  NTHREAD: 1
+        PGID: 6395;  PIDs: 6395
+
+       SCHEDULING PARAMETERS:
+                  r15s r1m  r15m ut pg io ls it tmp swp mem
+        loadSched -    -    -    -  -  -  -  -   -  -   -
+        loadStop  -    -    -    -  -  -  -  -   -  -   -
+        ...
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --dd
+
+       Displays information about jobs that finished recently.
+
+CCaatteeggoorriieess
+       state
+
+SSyynnooppssiiss
+       bbjjoobbss --dd
+
+DDeessccrriippttiioonn
+       The finished jobs that -d displays are those that finished within
+       an interval specified by CLEAN_PERIOD in lsb.params (the default
+       period is 1 hour).
+
+EExxaammpplleess
+       bjobs -d -q short -m hostA -u user1
+
+       Displays all the recently finished jobs submitted by user1 to the
+       queue short, and executed on the host hostA.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                     --ddaattaa
+
+       Displays the data file requirements for the job. The -data option
+       acts as a filter to show only jobs with data requirements. For
+       example, the option lists jobs that are submitted with -data. The
+       option also lists files or data requirement tags that are
+       requested by the job.
+
+CCaatteeggoorriieess
+       filter
+
+SSyynnooppssiiss
+       bbjjoobbss --ddaattaa [jobID]
+
+CCoonnfflliiccttiinngg ooppttiioonnss
+       Do not use the -data option with the following options: -A, -sum.
+
+DDeessccrriippttiioonn
+       The following units are displayed for file size:
+
+       *  _n_n_n B if file size is less than 1 KB
+
+       *  _n_n_n[._n] KB if file size is less than 1 MB
+
+       *  _n_n_n[._n] MB if file size is less than 1 GB
+
+       *  _n_n_n[._n] GB if file size is 1 GB or larger
+
+       *  _n_n_n[._n] EB if file size is 1 EB or larger
+
+       A dash (-) indicates that a size or modification time stamp value
+       is not available.
+
+       For jobs with data requirements that are specified as tags, the
+       -data option shows the tag names.
+
+EExxaammpplleess
+       bjobs -data 1962
+       JOBID   USER    STAT  QUEUE  FROM_HOST  EXEC_HOST  JOB_NAME
+       SUBMIT_TIME
+       1962    user1   PEND  normal hostA                 *p 1000000 Sep
+       20 16:31
+       FILE                                 SIZE   MODIFIED
+       datahost:/proj/user1/input1.dat      500 M   Jun 27 16:37:52
+       datahost:/proj/user1/input2.dat      100 M   Jun 27 16:37:52
+       datahost:/proj/user1/input3.dat      -      -
+
+       For jobs with data requirements specified as tags, the -data
+       option shows the tag names:
+
+       bjobs -data 1962
+       JOBID   USER    STAT  QUEUE      FROM_HOST   EXEC_HOST   JOB_NAME
+       SUBMIT_TIME
+       1962    user1   PEND  normal     hostA                   *p
+       1000000 Sep 20 16:31
+       TAG
+       OUTPUT_FROM_J1
+       OUTPUT_FROM_J2
+
+       For jobs with a folder as data requirement, the -data shows the
+       folder name. Individual files in the folder are not shown. For
+       example, for the following data requirement
+
+       bsub -data "/home/user/folder1/" myjob
+
+       the -data option shows the folder name /home/user/folder1/:
+
+       bjobs -data 44843
+       JOBID   USER    STAT  QUEUE      FROM_HOST   EXEC_HOST   JOB_NAME
+       SUBMIT_TIME
+       44843   user1   PEND  normal     hosta                   myjob
+       May 10 14:42
+
+        FILE                                                 SIZE
+       MODIFIED
+        hosta:/home/user1/folder1/                           4 KB
+       May  9 09:53
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                     --eennvv
+
+       Displays the environment variables in the job submission environ‐
+       ment for the specified job.
+
+CCaatteeggoorriieess
+       filter
+
+SSyynnooppssiiss
+       bbjjoobbss --eennvv
+
+CCoonnfflliiccttiinngg ooppttiioonnss
+       Do not use with any other bjobs command options.
+
+DDeessccrriippttiioonn
+       You must specify a single job ID or job array element ID when
+       using the -env command option. Multiple job IDs are not sup‐
+       ported.
+
+       When using the LSF multicluster capability and a lease job con‐
+       tains application-specific environment variables, the -env com‐
+       mand option cannot display these application-specific environment
+       variables when issued from the remote cluster.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                     --ffwwdd
+
+       In LSF multicluster capability job forwarding mode, filters out‐
+       put to display information on forwarded jobs.
+
+CCaatteeggoorriieess
+       filter
+
+SSyynnooppssiiss
+       bbjjoobbss --ffwwdd
+
+CCoonnfflliiccttiinngg ooppttiioonnss
+       Do not use with the following options: -A, -d, -sla, -ss, -x.
+
+DDeessccrriippttiioonn
+       In LSF multicluster capability job forwarding mode, filters out‐
+       put to display information on forwarded jobs, including the for‐
+       warded time and the name of the cluster to which the job was for‐
+       warded. -fwd can be used with other options to further filter the
+       results. For example, bjobs -fwd -r displays only forwarded run‐
+       ning jobs.
+
+       To use -x to see exceptions on the execution cluster, use bjobs
+       -m _e_x_e_c_u_t_i_o_n___c_l_u_s_t_e_r -x.
+
+EExxaammpplleess
+       % bjobs -fwd
+       JOBID USER    STAT QUEUE  EXEC_HOST JOB_NAME   CLUSTER  FOR‐
+       WARD_TIME
+       123   lsfuser RUN  queue1 hostC     sleep 1234 cluster3 Nov 29
+       14:08
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --GG
+
+       Displays jobs associated with the specified user group.
+
+CCaatteeggoorriieess
+       filter
+
+SSyynnooppssiiss
+       bbjjoobbss --GG user_group
+
+CCoonnfflliiccttiinngg ooppttiioonnss
+       Do not use with the -u option.
+
+DDeessccrriippttiioonn
+       Only displays jobs associated with a user group submitted with
+       bsub -G for the specified user group. The –G option does not dis‐
+       play jobs from subgroups within the specified user group. Jobs
+       associated with the user group at submission are displayed, even
+       if they are later switched to a different user group.
+
+       You can only specify a user group name. The keyword all is not
+       supported for -G.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --gg
+
+       Displays information about jobs attached to the specified job
+       group.
+
+CCaatteeggoorriieess
+       filter
+
+SSyynnooppssiiss
+       bbjjoobbss --gg job_group_name
+
+DDeessccrriippttiioonn
+       Use -g with -sla to display job groups attached to a time-based
+       service class. Once a job group is attached to a time-based ser‐
+       vice class, all jobs submitted to that group are subject to the
+       SLA.
+
+       bjobs -l with -g displays the full path to the group to which a
+       job is attached.
+
+EExxaammpplleess
+       bjobs -g /risk_group
+       JOBID   USER    STAT  QUEUE      FROM_HOST   EXEC_HOST   JOB_NAME
+       SUBMIT_TIME
+       113     user1   PEND  normal     hostA                   myjob
+       Jun 17 16:15
+       111     user2   RUN   normal     hostA       hostA       myjob
+       Jun 14 15:13
+       110     user1   RUN   normal     hostB       hostA       myjob
+       Jun 12 05:03
+       104     user3   RUN   normal     hostA       hostC       myjob
+       Jun 11 13:18
+
+       To display the full path to the group to which a job is attached,
+       run bjobs -l -g:
+
+       bjobs -l -g /risk_group
+       Job <101>, User <user1>, Project <default>, Job Group
+       </risk_group>,
+           Status <RUN>, Queue <normal>, Command <myjob>
+       Tue Jun 17 16:21:49 2009: Submitted from host <hostA>, CWD
+       </home/user1;
+       Tue Jun 17 16:22:01 2009: Started on <hostA>;
+        ...
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                     --ggppuu
+
+       bjobs -l -gpu shows the following information on GPU job alloca‐
+       tion:
+
+CCaatteeggoorriieess
+       filter
+
+SSyynnooppssiiss
+       bbjjoobbss --ll | --UUFF [--ggppuu]
+
+CCoonnfflliiccttiinngg ooppttiioonnss
+       Use only with the -l or -UF option.
+
+DDeessccrriippttiioonn
+       HHoosstt NNaammee
+                The name of the host.
+
+       GGPPUU IIDDss oonn tthhee hhoosstt
+                Each GPU is shown as a separate line.
+
+       TTAASSKK aanndd IIDD
+                List of job tasks and IDs using the GPU (separated by
+                comma if used by multiple tasks)
+
+       MMOODDEELL
+                Contains the GPU brand name and model type name.
+
+       MMTTOOTTAALL
+                The total GPU memory size.
+
+       GGPPUU CCoommppuuttee CCaappaabbiilliittyy
+
+       MMRRSSVV
+                GPU memory reserved by the job
+
+       SSOOCCKKEETT
+                socket ID of the GPU located at
+
+       NNVVLLIINNKK
+                Indicates if the GPU has NVLink connections with other
+                GPUs allocated for the job (ranked by GPU ID and
+                including itself). The connection flag of each GPU is a
+                character separated by “/” with the next GPU:
+                A “Y” indicates there is a direct NVLINK connection
+                between two GPUs.
+                An “N” shows there is no direct NVLINK connection with
+                that GPU.
+                A “-” shows the GPU is itself.
+
+       If the job exited abnormally due to a GPU-related error or warn‐
+       ing, the error or warning message displays. If LSF could not get
+       GPU usage information from DCGM, a hyphen (-) displays.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                  CCaatteeggoorriieess
+
+          Category: filter
+          Filter specific types of jobs: -A, -aff, -app, -aps, -bucket,
+          -data, -env, -fwd, -g, -G, -J, -Jd, -Lp, -m, -N, -P, -plan,
+          -prio, -psum, -q, -rusage, -script, -sla, -ss, -u.
+
+          Category: format
+          Control the bjobs display format: -aff, -cname, -hostfile, -l,
+          -N, -noheader, -o, -psum, -sum, -UF, -w, -W, -WF, -WL, -WP,
+          -X.
+
+          Category: state
+          Display specific job states: -a, -d, -N, -p, -pe, -pei, -pi,
+          -psum, -r, -s, -sum, -x.
+
+       Parent topic: bjobs
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                    OOppttiioonnss
+
+       List of options for the bjobs command.
+
+          -A
+          Displays summarized information about job arrays.
+
+          -a
+          Displays information about jobs in all states, including jobs
+          that finished recently.
+
+          -aff
+          Displays information about jobs with CPU and memory affinity
+          resource requirements for each task in the job.
+
+          -app
+          Displays information about jobs submitted to the specified
+          application profile.
+
+          -aps
+          Displays absolute priority scheduling (APS) information for
+          pending jobs in a queue with APS_PRIORITY enabled.
+
+          -cname
+          In IBM Spectrum LSF Advanced Edition, includes the cluster
+          name for execution cluster hosts in the output.
+
+          -d
+          Displays information about jobs that finished recently.
+
+          -data
+          Displays the data file requirements for the job. The -data
+          option acts as a filter to show only jobs with data
+          requirements. For example, the option lists jobs that are
+          submitted with -data. The option also lists files or data
+          requirement tags that are requested by the job.
+
+          -env
+          Displays the environment variables in the job submission
+          environment for the specified job.
+
+          -fwd
+          In LSF multicluster capability job forwarding mode, filters
+          output to display information on forwarded jobs.
+
+          -G
+          Displays jobs associated with the specified user group.
+
+          -g
+          Displays information about jobs attached to the specified job
+          group.
+
+          -gpu
+          bjobs -l -gpu shows the following information on GPU job
+          allocation:
+
+          -hms
+          Displays times in the customized output in _h_h_:_m_m_:_s_s
+          format.
+
+          -hostfile
+          Displays information about a job submitted with a
+          user-specified host file.
+
+          -J
+          Displays information about jobs or job arrays with the
+          specified job name.
+
+          -Jd
+          Displays information about jobs with the specified job
+          description.
+
+          -json
+          Displays the customized output in JSON format.
+
+          -Lp
+          Displays jobs that belong to the specified LSF License
+          Scheduler project.
+
+          -l
+          Long format. Displays detailed information for each job in a
+          multi-line format.
+
+          -m
+          Displays jobs dispatched to the specified hosts.
+
+          -N
+          Displays information about done and exited jobs, also displays
+          the normalized CPU time consumed by the job.
+
+          -noheader
+          Removes the column headings from the output.
+
+          -o
+          Sets the customized output format.
+
+          -P
+          Displays jobs that belong to the specified project.
+
+          -p
+          Displays pending jobs, together with the pending reasons that
+          caused each job not to be dispatched during the last dispatch
+          turn.
+
+          -pe
+          Displays pending jobs that are eligible for scheduling.
+
+          -pei
+          Displays pending jobs divided into lists of jobs that are
+          eligible for scheduling and ineligible for scheduling.
+
+          -pi
+          Displays pending jobs that are ineligible for scheduling.
+
+          -plan
+          Filter for the PEND jobs that have an allocation plan. See
+          AALLLLOOCCAATTIIOONN__PPLLAANNNNEERR (lsb.params).
+
+          -prio
+          Displays the detailed absolute priority scheduling (APS)
+          factor values for all pending jobs.
+
+          -psum
+          Displays a summarized version of reasons for pending jobs.
+
+          -q
+          Displays jobs in the specified queue.
+
+          -r
+          Displays running jobs.
+
+          -rusage
+          Displays jobs requesting the resources specified by the
+          filter.
+
+          -s
+          Displays suspended jobs, together with the suspending reason
+          that caused each job to become suspended.
+
+          -script
+          Displays the job script for the specified job from the LSF
+          info directory.
+
+          -sla
+          Displays jobs belonging to the specified service class.
+
+          -ss
+          Displays summary information for LSF Session Scheduler tasks.
+
+          -sum
+          Displays summary information about unfinished jobs.
+
+          -U
+          Displays jobs that are associated with the specified advance
+          reservation.
+
+          -UF
+          Displays unformatted job detail information.
+
+          -u
+          Displays jobs that were submitted by the specified users or
+          user groups.
+
+          -W
+          Provides resource usage information for: PROJ_NAME, CPU_USED,
+          MEM, SWAP, PIDS, START_TIME, FINISH_TIME.
+
+          -WF
+          Displays an estimated finish time for running or pending jobs.
+          For done or exited jobs, displays the actual finish time.
+
+          -WL
+          Displays the estimated remaining run time of jobs.
+
+          -WP
+          Displays the current estimated completion percentage of jobs.
+
+          -w
+          Wide format. Displays job information without truncating
+          fields.
+
+          -X
+          Displays uncondensed output for host groups and compute units.
+
+          -x
+          Displays unfinished jobs that have triggered a job exception
+          (overrun, underrun, idle, runtime_est_exceeded).
+
+          job_id
+          Specifies the jobs or job arrays that bjobs displays.
+
+          -h
+          Displays a description of the specified category, command
+          option, or sub-option to stderr and exits.
+
+          -V
+          Prints LSF release version to stderr and exits.
+
+       Parent topic: bjobs
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                     --hhmmss
+
+       Displays times in the customized output in _h_h_:_m_m_:_s_s format.
+
+CCaatteeggoorriieess
+       format
+
+SSyynnooppssiiss
+       bbjjoobbss --oo format [--jjssoonn] --hhmmss
+
+CCoonnfflliiccttiinngg ooppttiioonnss
+       Use only with the -o and -o -json options.
+
+DDeessccrriippttiioonn
+       When specified, bjobs displays any times (but not time stamps) in
+       the customized output in _h_h_:_m_m_:_s_s format.
+
+       The cpu_used field normally uses one decimal place in the bjobs
+       output, but if you specify -hms, bjobs rounds up this field to
+       the next second. For example, if the cpu_used field is 0.2 sec‐
+       onds, specifying -hms rounds this number up to 00:00:01.
+
+       For the runtimelimit field, if the AABBSS__RRUUNNLLIIMMIITT parameter is
+       defined as Y in the lsb.params file and you specify -hms, bjobs
+       does not display the host name. That is, if ABS_RUNLIMIT=Y is
+       defined in the lsb.params file, bjobs normally displays the host
+       name after the runtime limit (for example, 3.0/hostA). If you
+       specify -hms, bjobs displays the runtime limit without the host
+       name (for example, 00:03:00). This also applies if the AABBSS__RRUUNN‐‐
+       LLIIMMIITT parameter is defined as Y in the lsb.applications file and
+       you specify -hms to a job that is submitted to an application
+       profile with ABS_RUNLIMIT=Y.
+
+       Specifying the -hms option overrides the LLSSBB__HHMMSS__TTIIMMEE__FFOORRMMAATT
+       environment variable, which overrides the LLSSBB__HHMMSS__TTIIMMEE__FFOORRMMAATT
+       parameter setting in the lsf.conf file.
+
+       This option applies only to output for the bjobs -o and bjobs -o
+       -json commands for customized output. This option has no effect
+       when run with bjobs without the -o option.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                   --hhoossttffiillee
+
+       Displays information about a job submitted with a user-specified
+       host file.
+
+CCaatteeggoorriieess
+       format
+
+SSyynnooppssiiss
+       bbjjoobbss --ll | --UUFF [--hhoossttffiillee]
+
+CCoonnfflliiccttiinngg ooppttiioonnss
+       Use only with the -l or -UF option.
+
+DDeessccrriippttiioonn
+       If a job was submitted with bsub -hostfile or modified with bmod
+       -hostfile to point to a user-specified host file, use -hostfile
+       to show the user-specified host file path as well as the contents
+       of the host file.
+
+       Use -hostfile together with -l or -UF, to view the user specified
+       host file content as well as the host allocation for a given job.
+
+EExxaammppllee
+       Use -l -hostfile to display a user-specified host file that was
+       submitted with a job or added to a job.
+
+       For example:
+
+       bjobs -l -hostfile  2012
+       Job <2012>, User <userG>, Project <myproject>, Status <PEND>,
+       Queue
+                                <normal>, Commnad <sleep 10000>
+                                Thu Aug 1 12:43:25: Submitted from host
+       <host10a>,
+                                CWD <$HOME>,Host file
+       </home/userG/myhostfile>;
+
+        ......
+
+       USER-SPECIFIED HOST FILE:
+       HOST            SLOTS
+       host01            3
+       host02            1
+       host01            1
+       host02            2
+       host03            1
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --JJ
+
+       Displays information about jobs or job arrays with the specified
+       job name.
+
+CCaatteeggoorriieess
+       filter
+
+SSyynnooppssiiss
+       bbjjoobbss --JJ job_name
+
+DDeessccrriippttiioonn
+       Only displays jobs that were submitted by the user running this
+       command.
+
+       The job name can be up to 4094 characters long. Job names are not
+       unique.
+
+       The wildcard character (*) can be used anywhere within a job
+       name, but cannot appear within array indices. For example job*
+       returns jobA and jobarray[1], *AAA*[1] returns the first element
+       in all job arrays with names containing AAA, however job1[*] will
+       not return anything since the wildcard is within the array index.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --JJdd
+
+       Displays information about jobs with the specified job descrip‐
+       tion.
+
+CCaatteeggoorriieess
+       filter
+
+SSyynnooppssiiss
+       bbjjoobbss --JJdd job_description
+
+DDeessccrriippttiioonn
+       Only displays jobs that were submitted by the user running this
+       command.
+
+       The job description can be up to 4094 characters long. Job
+       descriptions are not unique.
+
+       The wildcard character (*) can be used anywhere within a job
+       description.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                     --jjssoonn
+
+       Displays the customized output in JSON format.
+
+CCaatteeggoorriieess
+       format
+
+SSyynnooppssiiss
+       bbjjoobbss --oo format --jjssoonn
+
+CCoonnfflliiccttiinngg ooppttiioonnss
+       Do not use with the -noheader option.
+
+DDeessccrriippttiioonn
+       NNoottee:: The -json command is not supported for Microsoft Windows or
+       Apple OS X operating systems.
+
+       When specified, bjobs -o displays the customized output in the
+       JSON format.
+
+       This option applies only to output for the bjobs -o command for
+       customized output. This option has no effect when run with bjobs
+       without the -o option and the LLSSBB__BBJJOOBBSS__FFOORRMMAATT environment vari‐
+       able or parameter are not defined.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --ll
+
+       Long format. Displays detailed information for each job in a
+       multi-line format.
+
+CCaatteeggoorriieess
+       format
+
+SSyynnooppssiiss
+       bbjjoobbss --ll
+
+DDeessccrriippttiioonn
+       The -l option displays the following additional information:
+
+       *  Project name
+
+       *  Job command
+
+       *  Current working directory on the submission host
+
+       *  Initial checkpoint period
+
+       *  Checkpoint directory
+
+       *  Migration threshold
+
+       *  Predicted job start time
+
+       *  Pending and suspending reasons
+
+       *  Job status
+
+       *  Job kill reason
+
+       *  Resource usage
+
+       *  Resource usage limits information
+
+       *  Memory and CPU usage information, such as CPU efficiency, CPU
+          peak usage, and memory efficiency values
+
+       *  Runtime resource usage information on the execution hosts
+
+       *  Pending time limits, eligible pending time limits
+
+       *  Job description
+
+       *  Name of any esub/epsub used with the job
+
+       *  Energy usage (if energy accounting with IBM Spectrum LSF
+          Explorer is enabled by setting
+          LSF_QUERY_ES_FUNCTIONS="energy" or "all" in the
+          lsf.conf file)
+
+       *  Approximate accumulated job disk usage (I/O) data on IBM
+          Spectrum Scale (if IBM Spectrum Scale I/O accounting with IBM
+          Spectrum LSF Explorer is enabled by setting
+          LSF_QUERY_ES_FUNCTIONS="gpfsio" or "all" in the
+          lsf.conf file)
+
+       *  Planned start time for jobs with a schedule and reservation
+          plan.
+
+       *  GPU requirement and allocation information
+
+       *  Account name for LSF resource connector
+
+       If the job was submitted with the bsub -K command, the -l option
+       displays Synchronous Execution.
+
+       Use the bjobs -A -l command to display detailed information for
+       job arrays, including job array job limit (% _j_o_b___l_i_m_i_t) if set.
+
+       Use the bjobs -ss -l command to display detailed information for
+       session scheduler jobs.
+
+       Use the bjobs -data -l command to display detailed information
+       for jobs with data requirements (for example, jobs that are sub‐
+       mitted with -data).
+
+       The bjobs -pl command displays detailed information about all
+       pending jobs of the invoker.
+
+       If the JJOOBB__IIDDLLEE parameter is configured in the queue, use bjobs
+       -l to display job idle exception information.
+
+       If you submitted your job with the -U option to use advance
+       reservations that are created with the brsvadd command, bjobs -l
+       shows the reservation ID used by the job.
+
+       If the LLSSFF__HHPPCC__EEXXTTEENNSSIIOONNSS==""SSHHOORRTT__PPIIDDLLIISSTT"" parameter is specified
+       in the lsf.conf file, the output from bjobs is shortened to dis‐
+       play only the first PID and a count of the process group IDs
+       (PGIDs) and process IDs for the job. Without SSHHOORRTT__PPIIDDLLIISSTT, all
+       of the process IDs (PIDs) for a job are displayed.
+
+       If the LLSSFF__HHPPCC__EEXXTTEENNSSIIOONNSS==""HHOOSSTT__RRUUSSAAGGEE"" parameter is specified in
+       the lsf.conf file, the output from the bjobs -l command reports
+       the correct rusage-based usage and the total rusage that is being
+       charged to the execution host.
+
+       If you submitted a job with multiple resource requirement strings
+       by using the bsub -R option for the order, same, rusage, and
+       select sections, bjobs -l displays a single, merged resource
+       requirement string for those sections, as if they were submitted
+       by using a single -R option.
+
+       If you submitted a job by using the OR (||) expression to specify
+       alternative resources, this option displays the Execution rusage
+       string with which the job runs.
+
+       Predicted start time for PEND reserve job is not shown with the
+       bjobs -l command option. LSF does not calculate the predicted
+       start time for PEND reserve job if no back fill queue is config‐
+       ured in the system. In that case, resource reservation for PEND
+       jobs works as normal, and no predicted start time is calculated.
+
+       For resizable jobs, the -l option displays active pending resize
+       allocation requests, and the latest job priority for running jobs
+       with active pending resize requests.
+
+       For jobs with user-based fairshare scheduling, displays the
+       charging SAAP (share attribute account path).
+
+       For jobs submitted to an absolute priority scheduling (APS)
+       queue, -l shows the ADMIN factor value and the system APS value
+       if they are not set by the administrator for the job.
+
+       For jobs submitted with SSH X11 forwarding, displays that the job
+       was submitted in SSH X11 forwarding mode as well as the SSH com‐
+       mand submitted (set in LLSSBB__SSSSHH__XXFFOORRWWAARRDD__CCMMDD in lsf.conf).
+
+       If the job was auto-attached to a guarantee SLA, -l displays the
+       auto-attached SLA name.
+
+       Specified CWD shows the value of the bsub -cwd option or the
+       value of LLSSBB__JJOOBB__CCWWDD. The CWD path with pattern values is dis‐
+       played. CWD is the submission directory where bsub ran. If speci‐
+       fied CWD was not defined, this field is not shown. The execution
+       CWD with pattern values is always shown.
+
+       If the job was submitted with an energy policy, to automatically
+       select a CPU frequency, -l shows the Combined CPU frequency (the
+       CPU frequency that is selected for the job based on the energy
+       policy tag, energy policy, and threshold file). If the job was
+       submitted with a user-defined CPU frequency (by using bsub
+       -freq), -l shows the Specified CPU frequency for the job.
+
+       For jobs submitted with the default GPU requirements (with the
+       option -gpu -), use the bjobs -l command to see the default job-
+       level resource requirement without details like <num=1...>:
+       Requested GPU.
+
+       If the -gpu option specifies GPU requirements (for example, -gpu
+       num=3, the bjobs -l shows the details as Requested GPU <num=3>.
+
+       The bjobs -l command displays an output section for GPU jobs that
+       shows the combined and effective GPU requirements that are speci‐
+       fied for the job. The GPU requirement string is in the format of
+       the GGPPUU__RREEQQ parameter in the application profile or queue:
+
+       *  The combined GPU requirement is merged based on the current
+          GPU requirements in job, queue, application, or default GPU
+          requirement.
+
+       *  The effective GPU requirement is the one used by a started
+          job. It never changes after a job is started.
+
+       Jobs that are submitted with an esub (or epsub) by using bsub -a
+       (or modified by using bmod -a), shows the latest esubs used for
+       execution in bjobs -l output, first with the default and then
+       user esubs. If a user-specified esub script is the same as the
+       default esub script, the duplicate esubs shows as one entry. If a
+       job is submitted with an esub containing parameters, the esub and
+       its parameters are shown in bjobs -l as well, and the format of
+       the esub is the same as the esub that is specified in the job
+       submission. For example:
+
+       bsub -a "test(a,b,c) " sleep 10000
+
+       is shown as:
+
+       Job <1561>, User <joes>, Project <default>, Status <RUN>, Queue
+       <normal>,
+       Command <sleep 1000000>, Share group charged </joes>, Esub
+       <test(a,b,c)>
+
+       If enhanced energy accounting with IBM Spectrum LSF Explorer is
+       enabled (with LLSSFF__EENNAABBLLEE__BBEEAATT__SSEERRVVIICCEE in lsf.conf), output shows
+       the energy usage in Joule and kWh.
+
+       If the lsb.params configuration file is configured with ALLOCA‐
+       TION_PLANNER = Y, and sets of candidate jobs have been identified
+       for consideration for an allocation plan, LSF creates a schedul‐
+       ing and reservation allocation plan.
+
+       *  bjobs –l : displays the planned start time for all jobs with
+          an allocation plan.
+
+       *  bjobs –l –plan : filter for jobs with allocation plans,
+          displaying the planned start time and planned allocation for
+          each job.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --LLpp
+
+       Displays jobs that belong to the specified LSF License Scheduler
+       project.
+
+CCaatteeggoorriieess
+       filter
+
+SSyynnooppssiiss
+       bbjjoobbss --LLpp ls_project_name
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --mm
+
+       Displays jobs dispatched to the specified hosts.
+
+CCaatteeggoorriieess
+       filter
+
+SSyynnooppssiiss
+       bbjjoobbss --mm host_name ... | --mm host_group ... | --mm cluster_name ...
+
+DDeessccrriippttiioonn
+       To see the available hosts, use bhosts.
+
+       If a host group or compute unit is specified, displays jobs dis‐
+       patched to all hosts in the group. To determine the available
+       host groups, use bmgroup. To determine the available compute
+       units, use bmgroup -cu.
+
+       With LSF multicluster capability, displays jobs in the specified
+       cluster. If a remote cluster name is specified, you see the
+       remote job ID, even if the execution host belongs to the local
+       cluster. To determine the available clusters, use bclusters.
+
+EExxaammpplleess
+       bjobs -d -q short -m hostA -u user1
+
+       Displays all the recently finished jobs submitted by user1 to the
+       queue short, and executed on the host hostA.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --NN
+
+       Displays information about done and exited jobs, also displays
+       the normalized CPU time consumed by the job.
+
+CCaatteeggoorriieess
+       filter, format, state
+
+SSyynnooppssiiss
+       bbjjoobbss --NN host_name | --NN host_model | --NN cpu_factor
+
+DDeessccrriippttiioonn
+       Normalizes using the CPU factor specified, or the CPU factor of
+       the host or host model specified.
+
+       Use with -p, -r, and -s to show information about pending, run‐
+       ning, and suspended jobs along with done and exited jobs.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                   --nnoohheeaaddeerr
+
+       Removes the column headings from the output.
+
+CCaatteeggoorriieess
+       format
+
+SSyynnooppssiiss
+       bbjjoobbss --nnoohheeaaddeerr
+
+DDeessccrriippttiioonn
+       When specified, bjobs displays the values of the fields without
+       displaying the names of the fields. This is useful for script
+       parsing, when column headings are not necessary.
+
+       This option applies to output for the bjobs command with no
+       options, and to output for all bjobs options with short form out‐
+       put except for -aff, -l, -UF, -N, -h, and -V.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --oo
+
+       Sets the customized output format.
+
+CCaatteeggoorriieess
+       format
+
+SSyynnooppssiiss
+       bbjjoobbss --oo ""field_name[::[--][output_width]][::unit_prefix]
+        ... [ddeelliimmiitteerr==''character'']""
+
+       bbjjoobbss --oo ''field_name[::[--][output_width]][::unit_prefix]
+        ... [ddeelliimmiitteerr==""character""]''
+
+DDeessccrriippttiioonn
+       *  Specify which bjobs fields (or aliases instead of the full
+          field names), in which order, and with what width to display.
+
+       *  Specify only the bjobs field name or alias to set its output
+          to unlimited width and left justification.
+
+       *  Specify the colon (:) without an output width to set the
+          output width to the recommended width for that field.
+
+       *  Specify the colon (:) with an output width to set the
+          maximum number of characters to display for the field. When
+          its value exceeds this width, bjobs truncates the output:
+
+          *  For the JOB_NAME field, bjobs removes the header characters
+             and replaces them with an asterisk (*)
+
+          *  For other fields, bjobs truncates the ending characters
+
+       *  Specify a hyphen (-) to set right justification when
+          bjobs displays the output for the specific field. If not
+          specified, the default is to set left justification when bjobs
+          displays the output for a field.
+
+       *  Specify a second colon (:) with a unit to specify a unit
+          prefix for the output for the following fields: mem,
+          max_mem, avg_mem, memlimit, swap,
+          swaplimit, corelimit, stacklimit, and
+          hrusage (for hrusage, the unit prefix is for
+          mem and swap resources only).
+
+          This unit is KB (or K) for kilobytes, MB (or
+          M) for megabytes, GB (or G) for gigabytes,
+          TB (or T) for terabytes, PB (or P) for
+          petabytes, EB (or E) for exabytes, ZB (or
+          Z) for zettabytes), or S to automatically adjust
+          the value to a suitable unit prefix and remove the "bytes"
+          suffix from the unit. The default is to automatically adjust
+          the value to a suitable unit prefix, but keep the "bytes"
+          suffix in the unit.
+
+          The display value keeps two decimals but rounds up the third
+          decimal. For example, if the unit prefix is set to G,
+          10M displays as 0.01G.
+
+          The unit prefix specified here overrides the value of the
+          LLSSBB__UUNNIITT__FFOORR__JJOOBBSS__DDIISSPPLLAAYY environment variable, which
+          also overrides the value of the
+          LLSSBB__UUNNIITT__FFOORR__JJOOBBSS__DDIISSPPLLAAYY parameter in the lsf.conf
+          file.
+
+       *  Use delimiter= to set the delimiting character to
+          display between different headers and fields. This delimiter
+          must be a single character. By default, the delimiter is a
+          space.
+
+       To specify special delimiter characters in a csh environment (for
+       example, $), use double quotation marks (") in the delimiter
+       specification and single quotation marks (') in the -o statement:
+
+       bjobs ... -o '_f_i_e_l_d___n_a_m_e[:[-][_o_u_t_p_u_t___w_i_d_t_h]]
+        ... [delimiter="_c_h_a_r_a_c_t_e_r"]'
+
+       The -o option applies only to output for certain bjobs options:
+
+       *  This option applies to output for the bjobs command with no
+          options, and for bjobs options with short form output that
+          filter information, including the following options: -a, -app,
+          -d, -g, -G, -J, -Jd, -Lp, -m, -P, -q, -r, -sla, -u, -x, -X.
+
+       *  This option applies to output for bjobs options that use a
+          modified format and filter information, including the
+          following options: -fwd, -N, -p, -s.
+
+       *  This option does not apply to output for bjobs options that
+          use a modified format, including the following options: -A,
+          -aff, -aps, -l, -UF, -ss, -sum, -UF, -w, -W, -WF, -WL, -WP.
+
+       The bjobs -o option overrides the LLSSBB__BBJJOOBBSS__FFOORRMMAATT environment
+       variable, which overrides the LLSSBB__BBJJOOBBSS__FFOORRMMAATT setting in
+       lsf.conf.
+
+       The following are the field names used to specify the bjobs
+       fields to display, recommended width, aliases you can use instead
+       of field names, and units of measurement for the displayed field:
+
+       TTaabbllee 11.. OOuuttppuutt ffiieellddss ffoorr bbjjoobbss
+
+       +------------------------+------+------------+-----------------+
+       | Field name             | Widt | Aliases    | Unit            |
+       |                        | h    |            |                 |
+       +------------------------+------+------------+-----------------+
+       | jobid                  | 7    | id         |                 |
+       +------------------------+------+------------+-----------------+
+       | jobindex               | 8    |            |                 |
+       +------------------------+------+------------+-----------------+
+       | stat                   | 5    |            |                 |
+       +------------------------+------+------------+-----------------+
+       | user                   | 7    |            |                 |
+       +------------------------+------+------------+-----------------+
+       | user_group             | 15   | ugroup     |                 |
+       +------------------------+------+------------+-----------------+
+       | queue                  | 10   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | job_name               | 10   | name       |                 |
+       +------------------------+------+------------+-----------------+
+       | job_description        | 17   | descriptio |                 |
+       |                        |      | n          |                 |
+       +------------------------+------+------------+-----------------+
+       | proj_name              | 11   | proj,      |                 |
+       |                        |      | project    |                 |
+       +------------------------+------+------------+-----------------+
+       | application            | 13   | app        |                 |
+       +------------------------+------+------------+-----------------+
+       | service_class          | 13   | sla        |                 |
+       +------------------------+------+------------+-----------------+
+       | job_group              | 10   | group      |                 |
+       +------------------------+------+------------+-----------------+
+       | job_priority           | 12   | priority   |                 |
+       +------------------------+------+------------+-----------------+
+       | rsvid                  | 40   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | esub                   | 20   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | kill_reason            | 50   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | suspend_reason         | 50   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | resume_reason          | 50   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | kill_issue_host        | 50   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | suspend_issue_host     | 50   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | resume_issue_host      | 50   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | dependency             | 15   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | pend_reason            | 11   |            |                 |
+       | This displays the      |      |            |                 |
+       | single key pending     |      |            |                 |
+       | reason, including      |      |            |                 |
+       | custom messages,       |      |            |                 |
+       | regardless of the      |      |            |                 |
+       | default pending reason |      |            |                 |
+       | level as specified in  |      |            |                 |
+       | the                    |      |            |                 |
+       | LSB_BJOBS_PENDREASON_L |      |            |                 |
+       | EVEL parameter in the  |      |            |                 |
+       | lsf.conf file.         |      |            |                 |
+       +------------------------+------+------------+-----------------+
+       | charged_saap           | 50   | saap       |                 |
+       +------------------------+------+------------+-----------------+
+       | command                | 15   | cmd        |                 |
+       +------------------------+------+------------+-----------------+
+       | pre_exec_command       | 16   | pre_cmd    |                 |
+       +------------------------+------+------------+-----------------+
+       | post_exec_command      | 17   | post_cmd   |                 |
+       +------------------------+------+------------+-----------------+
+       | resize_notification_co | 27   | resize_cmd |                 |
+       | mmand                  |      |            |                 |
+       +------------------------+------+------------+-----------------+
+       | pids                   | 20   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | exit_code              | 10   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | exit_reason            | 50   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | interactive            | 11   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | from_host              | 11   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | first_host             | 11   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | exec_host              | 11   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | nexec_host             | 10   |            |                 |
+       | Note: If the allocated |      |            |                 |
+       | host group or compute  |      |            |                 |
+       | unit is condensed,     |      |            |                 |
+       | this field does not    |      |            |                 |
+       | display the real       |      |            |                 |
+       | number of hosts. Use   |      |            |                 |
+       | bjobs -X -o to view    |      |            |                 |
+       | the real number of     |      |            |                 |
+       | hosts in these         |      |            |                 |
+       | situations.            |      |            |                 |
+       +------------------------+------+------------+-----------------+
+       | ask_hosts              | 30   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | alloc_slot             | 20   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | nalloc_slot            | 10   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | host_file              | 10   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | exclusive              | 13   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | nreq_slot              | 10   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | submit_time            | 15   |            | time stamp      |
+       +------------------------+------+------------+-----------------+
+       | start_time             | 15   |            | time stamp      |
+       +------------------------+------+------------+-----------------+
+       | estimated_start_time   | 20   | estart_tim | time stamp      |
+       |                        |      | e          |                 |
+       +------------------------+------+------------+-----------------+
+       | specified_start_time   | 20   | sstart_tim | time stamp      |
+       |                        |      | e          |                 |
+       +------------------------+------+------------+-----------------+
+       | specified_terminate_ti | 24   | sterminate | time stamp      |
+       | me                     |      | _time      |                 |
+       +------------------------+------+------------+-----------------+
+       | time_left              | 11   |            | seconds         |
+       +------------------------+------+------------+-----------------+
+       | finish_time            | 16   |            | time stamp      |
+       +------------------------+------+------------+-----------------+
+       | estimated_run_time     | 20   | ertime     | seconds         |
+       +------------------------+------+------------+-----------------+
+       | ru_utime               | 12   |            | seconds         |
+       +------------------------+------+------------+-----------------+
+       | ru_stime               | 12   |            | seconds         |
+       +------------------------+------+------------+-----------------+
+       | %complete              | 11   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | warning_action         | 15   | warn_act   |                 |
+       +------------------------+------+------------+-----------------+
+       | action_warning_time    | 19   | warn_time  |                 |
+       +------------------------+------+------------+-----------------+
+       | pendstate              | 9    |            |                 |
+       | (IPEND/EPEND/NOTPEND)  |      |            |                 |
+       +------------------------+------+------------+-----------------+
+       | pend_time              | 12   |            | seconds         |
+       +------------------------+------+------------+-----------------+
+       | ependtime              | 12   |            | seconds         |
+       +------------------------+------+------------+-----------------+
+       | ipendtime              | 12   |            | seconds         |
+       +------------------------+------+------------+-----------------+
+       | estimated_sim_start_ti | 24   | esstart_ti | time stamp      |
+       | me                     |      | me         |                 |
+       +------------------------+------+------------+-----------------+
+       | effective_plimit (run  | 18   |            | seconds         |
+       | with bjobs -p to show  |      |            |                 |
+       | information for        |      |            |                 |
+       | pending jobs only)     |      |            |                 |
+       +------------------------+------+------------+-----------------+
+       | plimit_remain (run     | 15   |            | seconds         |
+       | with bjobs -p to show  |      |            |                 |
+       | information for        |      |            |                 |
+       | pending jobs only)     |      |            |                 |
+       | A negative number      |      |            |                 |
+       | indicates the amount   |      |            |                 |
+       | of time in which the   |      |            |                 |
+       | job exceeded the       |      |            |                 |
+       | pending time limit,    |      |            |                 |
+       | while a positive       |      |            |                 |
+       | number shows that the  |      |            |                 |
+       | time remaining until   |      |            |                 |
+       | the pending time limit |      |            |                 |
+       | is reached.            |      |            |                 |
+       +------------------------+------+------------+-----------------+
+       | effective_eplimit (run | 19   |            | seconds         |
+       | with bjobs -p to show  |      |            |                 |
+       | information for        |      |            |                 |
+       | pending jobs only)     |      |            |                 |
+       +------------------------+------+------------+-----------------+
+       | eplimit_remain (run    | 16   |            | seconds         |
+       | with bjobs -p to show  |      |            |                 |
+       | information for        |      |            |                 |
+       | pending jobs only)     |      |            |                 |
+       +------------------------+------+------------+-----------------+
+       | cpu_used               | 10   |            |                 |
+       | A negative number      |      |            |                 |
+       | indicates the amount   |      |            |                 |
+       | of time in which the   |      |            |                 |
+       | job exceeded the       |      |            |                 |
+       | pending time limit,    |      |            |                 |
+       | while a positive       |      |            |                 |
+       | number shows that the  |      |            |                 |
+       | time remaining until   |      |            |                 |
+       | the pending time limit |      |            |                 |
+       | is reached.            |      |            |                 |
+       +------------------------+------+------------+-----------------+
+       | idle_factor            | 11   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | exception_status       | 16   | except_sta |                 |
+       |                        |      | t          |                 |
+       +------------------------+------+------------+-----------------+
+       | slots                  | 5    |            |                 |
+       +------------------------+------+------------+-----------------+
+       | mem                    | 10   |            | LSF_UNIT_FOR_LI |
+       |                        |      |            | MITS in         |
+       |                        |      |            | lsf.conf (KB by |
+       |                        |      |            | default)        |
+       +------------------------+------+------------+-----------------+
+       | max_mem                | 10   |            | LSF_UNIT_FOR_LI |
+       |                        |      |            | MITS in         |
+       |                        |      |            | lsf.conf (KB by |
+       |                        |      |            | default)        |
+       +------------------------+------+------------+-----------------+
+       | avg_mem                | 10   |            | LSF_UNIT_FOR_LI |
+       |                        |      |            | MITS in         |
+       |                        |      |            | lsf.conf (KB by |
+       |                        |      |            | default)        |
+       +------------------------+------+------------+-----------------+
+       | memlimit               | 10   |            | LSF_UNIT_FOR_LI |
+       |                        |      |            | MITS in         |
+       |                        |      |            | lsf.conf (KB by |
+       |                        |      |            | default)        |
+       +------------------------+------+------------+-----------------+
+       | swap                   | 10   |            | LSF_UNIT_FOR_LI |
+       |                        |      |            | MITS in         |
+       |                        |      |            | lsf.conf (KB by |
+       |                        |      |            | default)        |
+       +------------------------+------+------------+-----------------+
+       | swaplimit              | 10   |            | LSF_UNIT_FOR_LI |
+       |                        |      |            | MITS in         |
+       |                        |      |            | lsf.conf (KB by |
+       |                        |      |            | default)        |
+       +------------------------+------+------------+-----------------+
+       | gpu_num                | 10   | gnum       |                 |
+       +------------------------+------+------------+-----------------+
+       | gpu_mode               | 20   | gmode      |                 |
+       +------------------------+------+------------+-----------------+
+       | j_exclusive            | 15   | j_excl     |                 |
+       +------------------------+------+------------+-----------------+
+       | gpu_alloc              | 30   | galloc     |                 |
+       +------------------------+------+------------+-----------------+
+       | nthreads               | 10   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | hrusage                | 50   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | min_req_proc           | 12   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | max_req_proc           | 12   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | effective_resreq       | 17   | eresreq    |                 |
+       +------------------------+------+------------+-----------------+
+       | combined_resreq        | 20   | cresreq    |                 |
+       +------------------------+------+------------+-----------------+
+       | network_req            | 15   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | filelimit              | 10   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | corelimit              | 10   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | stacklimit             | 10   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | processlimit           | 12   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | runtimelimit           | 12   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | plimit                 | 10   |            | seconds         |
+       +------------------------+------+------------+-----------------+
+       | eplimit                | 10   |            | seconds         |
+       +------------------------+------+------------+-----------------+
+       | input_file             | 10   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | output_file            | 11   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | error_file             | 10   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | output_dir             | 15   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | sub_cwd                | 10   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | exec_home              | 10   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | exec_cwd               | 10   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | licproject             | 20   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | forward_cluster        | 15   | fwd_cluste |                 |
+       |                        |      | r          |                 |
+       +------------------------+------+------------+-----------------+
+       | forward_time           | 15   | fwd_time   | time stamp      |
+       +------------------------+------+------------+-----------------+
+       | srcjobid               | 8    |            |                 |
+       +------------------------+------+------------+-----------------+
+       | dstjobid               | 8    |            |                 |
+       +------------------------+------+------------+-----------------+
+       | source_cluster         | 15   | srcluster  |                 |
+       +------------------------+------+------------+-----------------+
+       | energy                 |      |            | Joule           |
+       +------------------------+------+------------+-----------------+
+       | gpfsio                 |      |            |                 |
+       | Job disk usage (I/O)   |      |            |                 |
+       | data on IBM Spectrum   |      |            |                 |
+       | Scale.                 |      |            |                 |
+       +------------------------+------+------------+-----------------+
+       | cpu_peak               | 10   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | cpu_efficiency         | 10   |            |                 |
+       +------------------------+------+------------+-----------------+
+       | mem_efficiency         | 10   |            |                 |
+       +------------------------+------+------------+-----------------+
+
+       Field names and aliases are not case-sensitive. Valid values for
+       the output width are any positive integer 1 - 4096. If the jobid
+       field is defined with no output width and LLSSBB__JJOOBBIIDD__DDIISSPP__LLEENNGGTTHH
+       is defined in lsf.conf, the LLSSBB__JJOOBBIIDD__DDIISSPP__LLEENNGGTTHH value is used
+       for the output width.  If jobid is defined with a specified out‐
+       put width, the specified output width overrides the
+       LLSSBB__JJOOBBIIDD__DDIISSPP__LLEENNGGTTHH value.
+
+EExxaammppllee
+       bjobs -o "jobid stat: queue:- project:10 application:-6 mem:12:G
+       delimiter='^'" 123
+
+       This command (used to illustrate the different subcommands for
+       -o) displays the following fields for a job with the job ID 123:
+
+       *  JOBID with unlimited width and left-aligned. If
+          LSB_JOBID_DISP_LENGTH is specified, that value is used for the
+          output width instead.
+
+       *  STAT with a maximum width of 5 characters (which is the
+          recommended width) and left-aligned.
+
+       *  QUEUE with a maximum width of 10 characters (which is the
+          recommended width) and right-aligned.
+
+       *  PROJECT with a maximum width of 10 characters and
+          left-aligned.
+
+       *  APPLICATION with a maximum width of 6 characters and
+          right-aligned.
+
+       *  MEM with a maximum width of 12 characters, a unit prefix of G
+          (for gigabytes), and left-aligned.
+
+       *  The ^ character is displayed between different headers
+          and fields.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --PP
+
+       Displays jobs that belong to the specified project.
+
+CCaatteeggoorriieess
+       filter
+
+SSyynnooppssiiss
+       bbjjoobbss --PP project_name
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --pp
+
+       Displays pending jobs, together with the pending reasons that
+       caused each job not to be dispatched during the last dispatch
+       turn.
+
+CCaatteeggoorriieess
+       state
+
+SSyynnooppssiiss
+       bbjjoobbss --pp<level0-3>
+
+DDeessccrriippttiioonn
+       Displays the pending reason or reasons and the number of hosts
+       giving that reason.
+
+       *  0: Displays bjobs -p output as before the LSF 10.1 release.
+
+       *  1: Displays the single key pending reason.
+
+       *  2: Displays categorized host-based pending reasons for
+          candidate hosts in the cluster. For the candidate hosts, the
+          actual reason on each host is shown. For each pending reason,
+          the number of hosts that give the reason is shown. The actual
+          pending reason messages appear from most to least common.
+
+       *  3: Displays categorized host-based pending reasons for both
+          candidate and non-candidate hosts in the cluster. For both the
+          candidate and non-candidate hosts, the actual pending reason
+          on each host is shown. For each pending reason, the number of
+          hosts that show that reason is given. The actual reason
+          messages appear from most to least common.
+
+       If no level is specified, the default is shown, as set by the
+       LSB_BJOBS_PENDREASON_LEVEL parameter in the lsf.conf file.
+
+       If global limits are enabled (that is, the GGLLOOBBAALL__LLIIMMIITTSS parame‐
+       ter is enabled in the lsb.params file and global limits are
+       defined in the lsb.globalpolicies file), the pending reason also
+       includes the total global limit amount for the resource alloca‐
+       tion limit in the Global field if the job is blocked by the
+       global limit value and the existing Limit Value field is a dynam‐
+       ically changing number that is taken from the global limits. In
+       addition, the format of the job group name changes to
+       "/_j_o_b___g_r_o_u_p/@_c_l_u_s_t_e_r" to show the cluster name.
+
+       With IBM Spectrum LSF License Scheduler (LSF License Scheduler),
+       the pending reason also includes the project name for project
+       mode and the cluster name for cluster mode features. Jobs with an
+       invalid project name show the project name as a hyphen (-).  If a
+       default project is configured for that feature, it shows default
+       as the project name.
+
+       If -l is also specified, the pending reason shows the names of
+       the hosts and any hosts that are on the job's host exclusion
+       list.
+
+       With the LSF multicluster capability, -l shows the names of hosts
+       in the local cluster.
+
+       Each pending reason is associated with one or more hosts and it
+       states the cause why these hosts are not allocated to run the
+       job. In situations where the job requests specific hosts (using
+       bsub -m), users may see reasons for unrelated hosts also being
+       displayed, together with the reasons associated with the
+       requested hosts.
+
+       In the case of host-based pre-execution failure, pending reasons
+       will be displayed.
+
+       The life cycle of a pending reason ends after the time indicated
+       by PPEENNDD__RREEAASSOONN__UUPPDDAATTEE__IINNTTEERRVVAALL in lsb.params.
+
+       When the job slot limit is reached for a job array (bsub -J
+       "jobArray[indexList]%job_slot_limit") the following message is
+       displayed:
+
+       The job array has reached its job slot limit.
+
+EExxaammpplleess
+       bjobs -pl
+
+       Displays detailed information about all pending jobs of the
+       invoker. Also displays the names of any hosts that are in the
+       job's host exclusion list (that is, hosts that are excluded from
+       the job).
+
+       bjobs -ps
+
+       Display only pending and suspended jobs.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --ppee
+
+       Displays pending jobs that are eligible for scheduling.
+
+CCaatteeggoorriieess
+       state
+
+SSyynnooppssiiss
+       bbjjoobbss --ppee
+
+DDeessccrriippttiioonn
+       A job that is in an eligible pending state is a job that LSF
+       would normally select for resource allocation, but is currently
+       pending because its priority is lower than other jobs. It is a
+       job that is eligible for scheduling and will be run if there are
+       sufficient resources to run it. In addition, for chunk jobs in
+       WAIT status, the time spent in the WAIT status is counted as eli‐
+       gible pending time.
+
+       This option is valid only when TTRRAACCKK__EELLIIGGIIBBLLEE__PPEENNDDIINNFFOO in
+       lsb.params is set to Y or y (enabled).
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                     --ppeeii
+
+       Displays pending jobs divided into lists of jobs that are eligi‐
+       ble for scheduling and ineligible for scheduling.
+
+CCaatteeggoorriieess
+       state
+
+SSyynnooppssiiss
+       bbjjoobbss --ppeeii
+
+DDeessccrriippttiioonn
+       A job that is in an eligible pending state is a job that LSF
+       would normally select for resource allocation, but is currently
+       pending because its priority is lower than other jobs. It is a
+       job that is eligible for scheduling and will be run if there are
+       sufficient resources to run it.
+
+       An ineligible pending job remains pending even if there are
+       enough resources to run it and is therefore ineligible for sched‐
+       uling. Reasons for a job to remain pending, and therefore be in
+       an ineligible pending state, include the following:
+
+       *  The job has a start time constraint (specified with the -b
+          option)
+
+       *  The job is suspended while pending (in a PSUSP state).
+
+       *  The queue of the job is made inactive by the administrator or
+          by its time window.
+
+       *  The job's dependency conditions are not satisfied.
+
+       *  The job cannot fit into the run time window (RRUUNN__WWIINNDDOOWW)
+
+       *  Delayed scheduling is enabled for the job
+          (NNEEWW__JJOOBB__SSCCHHEEDD__DDEELLAAYY is greater than zero)
+
+       *  The job's queue or application profile does not exist.
+
+       A job that is not under any of the ineligible pending state con‐
+       ditions is treated as an eligible pending job. In addition, for
+       chunk jobs in WAIT status, the time spent in the WAIT status is
+       counted as eligible pending time.
+
+       This option is valid only when TTRRAACCKK__EELLIIGGIIBBLLEE__PPEENNDDIINNFFOO in
+       lsb.params is set to Y or y (enabled).
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --ppii
+
+       Displays pending jobs that are ineligible for scheduling.
+
+CCaatteeggoorriieess
+       state
+
+SSyynnooppssiiss
+       bbjjoobbss --ppii
+
+DDeessccrriippttiioonn
+       An ineligible pending job remains pending even if there are
+       enough resources to run it and is therefore ineligible for sched‐
+       uling. Reasons for a job to remain pending, and therefore be in
+       an ineligible pending state, include the following:
+
+       *  The job has a start time constraint (specified with the -b
+          option)
+
+       *  The job is suspended while pending (in a PSUSP state).
+
+       *  The queue of the job is made inactive by the administrator or
+          by its time window.
+
+       *  The job's dependency conditions are not satisfied.
+
+       *  The job cannot fit into the run time window (RRUUNN__WWIINNDDOOWW)
+
+       *  Delayed scheduling is enabled for the job
+          (NNEEWW__JJOOBB__SSCCHHEEDD__DDEELLAAYY is greater than zero)
+
+       *  The job's queue or application profile does not exist.
+
+       A job that is not under any of the ineligible pending state con‐
+       ditions is treated as an eligible pending job.
+
+       This option is valid only when TTRRAACCKK__EELLIIGGIIBBLLEE__PPEENNDDIINNFFOO in
+       lsb.params is set to Y or y (enabled).
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                     --ppllaann
+
+       Filter for the PEND jobs that have an allocation plan. See AALLLLOO‐‐
+       CCAATTIIOONN__PPLLAANNNNEERR (lsb.params).
+
+CCaatteeggoorriieess
+       filter
+
+SSyynnooppssiiss
+       bbjjoobbss --ppllaann
+
+DDeessccrriippttiioonn
+       To see the allocation plan, use the bjobs -plan option together
+       with the -l option.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                     --pprriioo
+
+       Displays the detailed absolute priority scheduling (APS) factor
+       values for all pending jobs.
+
+CCaatteeggoorriieess
+       filter
+
+SSyynnooppssiiss
+       bbjjoobbss --pprriioo
+
+DDeessccrriippttiioonn
+       Displays the detailed priority factors and values for APS. Run
+       bqueues -r for further details on fairshare user priority.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                     --ppssuumm
+
+       Displays a summarized version of reasons for pending jobs.
+
+CCaatteeggoorriieess
+       filter, format, state
+
+SSyynnooppssiiss
+       bbjjoobbss --ppssuumm
+
+DDeessccrriippttiioonn
+       Displays the summarized number of jobs, hosts, and occurrences
+       for each pending reason.
+
+       NNoottee:: By default bjobs -psum is equivalent to bjobs -p -psum.
+
+       By default, bjobs commands only access information about the sub‐
+       mitting user's own jobs. Therefore, bjobs -psum presents a sum‐
+       mary of only the submitting user's own pending jobs. If the -u
+       option is specified for a specific user, user group, or all users
+       (using the all keyword), pending jobs of the specific users are
+       summarized. The SSEECCUURREE__JJOOBB__IINNFFOO__LLEEVVEELL parameter can define dif‐
+       ferent access control levels for all users. The -psum option will
+       only summarize the pending jobs that can be seen by the users
+       specified with SSEECCUURREE__JJOOBB__IINNFFOO__LLEEVVEELL.
+
+CCoonnfflliiccttiinngg ooppttiioonnss
+       Use only with the filter options that can return a list of pend‐
+       ing jobs, including the following: -app, -fwd, -G, -g, -J, -Jd,
+       -Lp, -m, -P, -p, -p(0~3), -pe, -pei, -pi, -q, -sla, -u
+
+EExxaammpplleess
+       bjobs -psum
+
+       Lists the top eligible and ineligible pending reasons in descend‐
+       ing order by the number of jobs. If a host reason exists, further
+       detailed host reasons are displayed in descending order by occur‐
+       rences. Occurrence is a per-job per-host based number, counting
+       the total times each job hits the reason on every single host.
+
+       #bjobs -p -psum
+       Pending reason summary: published Wed Mar 24 15:11:50 2016
+       Summarizing 100 pending jobs in cluster (cluster1):
+           Individual host based reasons:
+       70 jobs
+           Job's requirements for reserving resource (lic1) not satis‐
+       fied:  20 jobs
+           New job is waiting for scheduling:
+       10 jobs
+
+       Individual host based reasons
+           Load information unavailable:
+       160 occurrences
+           Closed by LSF administrator:
+       80 occurrences
+           Not specified in job submission:
+       40 occurrences
+           Job requirements for reserving resource (mem) not satisfied:
+       40 occurrences
+
+       bjobs -q short -u user1 -psum
+
+       Displays summary of all pending job list submitted by user1 to
+       the queue short.
+
+       bjobs -p1 -psum
+
+       Display summary of single key reasons (rather than all host pend‐
+       ing reason).
+
+       bjobs -p2 -psum
+
+       Display summary of candidate host pending reasons (rather than
+       non-candidate host pending reason).
+
+       bjobs -p3 -psum
+
+       Display summary of both candidate host pending reasons and non-
+       candidate host pending reason.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --qq
+
+       Displays jobs in the specified queue.
+
+CCaatteeggoorriieess
+       filter
+
+SSyynnooppssiiss
+       bbjjoobbss --qq queue_name
+
+DDeessccrriippttiioonn
+       The command bqueues returns a list of queues configured in the
+       system, and information about the configurations of these queues.
+
+       In LSF multicluster capability, you cannot specify remote queues.
+
+EExxaammpplleess
+       bjobs -d -q short -m hostA -u user1
+
+       Displays all the recently finished jobs submitted by user1 to the
+       queue short, and executed on the host hostA.
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                      --rr
+
+       Displays running jobs.
+
+CCaatteeggoorriieess
+       state
+
+SSyynnooppssiiss
+       bbjjoobbss --rr
+
+       Parent topic: Options
+
+bjobs(1)                                                                                                                                                                     bjobs(1)
+
+                                    --rruussaaggee
+
+       Displays jobs requesting the resources specified by the filter.
+
+CCaatteeggoorriieess
+       filter
+
+SSyynnooppssiiss
+       bbjjoobbss --rruussaaggee ""resource_name[,,resource_name,,. .
+
+CCoonnfflliiccttiinngg ooppttiioonnss
+       Can be used with other state or filter options (for example, -p
+       or -r). Cannot be used with the -A option.
+
+DDeessccrriippttiioonn
+       Filters the results and shows only jobs that request the
+       resource(s) specified.
+
+       If multiple resources are s
